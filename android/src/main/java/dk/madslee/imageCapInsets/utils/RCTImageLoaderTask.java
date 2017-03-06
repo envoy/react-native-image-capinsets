@@ -24,7 +24,7 @@ public class RCTImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(String... params) {
-        if (mUri.startsWith("http")) {
+        if (mUri.startsWith("http") || mUri.startsWith("file")) {
             return loadBitmapByExternalURL(mUri);
         }
 
@@ -42,6 +42,8 @@ public class RCTImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
         try {
             InputStream in = new URL(uri).openStream();
             bitmap = BitmapFactory.decodeStream(in);
+            in.close();
+            bitmap.setDensity(320);
         } catch (IOException e) {
             e.printStackTrace();
         }
